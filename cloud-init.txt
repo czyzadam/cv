@@ -1,0 +1,19 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - apache2
+write_files:
+  - path: /etc/apache2/sites-available/aidevops.eu
+    content: |
+    <VirtualHost *:80>
+        ServerName aidevops.eu
+        ServerAlias www.aidevops.eu
+        DocumentRoot /var/www/aidevops.eu
+        ErrorLog ${APACHE_LOG_DIR}/aidevops.eu_error.log
+        CustomLog ${APACHE_LOG_DIR}/aidevops.eu_access.log combined
+    </VirtualHost>
+
+runcmd:
+ - a2ensite aidevops.eu
+ - a2dissite 000-default
+  - systemctl restart apache2
